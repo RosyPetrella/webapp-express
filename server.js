@@ -13,16 +13,16 @@ app.use(
   })
 );
 
-app.use("/api/movies", moviesRouter);
-console.log("Movies router registered");
-
-app.get("/api/test", (req, res) => {
-  res.json({ message: "Test route working" });
-});
-
 app.listen(PORT, () => {
   console.log(`server running on port: ${PORT}`);
 });
+
+app.use("/api/movies", moviesRouter);
+console.log("Movies router registered");
+
+// app.get("/api/test", (req, res) => {
+//   res.json({ message: "Test route working" });
+// });
 
 app.get("/", (req, res) => {
   res.send("Movies API server is running!");
