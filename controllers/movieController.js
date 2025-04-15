@@ -1,9 +1,17 @@
-const connection = require("../database/db.js");
+const connection = require("../database/db");
 
 function index(req, res) {
+  console.log("Attempting to fetch all movies");
   const sql = "SELECT * FROM movies";
+
   connection.query(sql, (err, results) => {
-    if (err) return res.status(500).json({ message: "No movies found" });
+    if (err) {
+      console.error("Database query error:", err);
+      return res
+        .status(500)
+        .json({ message: "Database error", error: err.message });
+    }
+    console.log(`Found ${results.length} movies`);
     res.json(results);
   });
 }
