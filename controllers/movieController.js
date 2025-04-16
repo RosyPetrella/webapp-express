@@ -3,6 +3,7 @@ const connection = require("../database/db");
 function index(req, res) {
   console.log("Attempting to fetch all movies");
   const sql = "SELECT * FROM movies";
+  const sqlReviews = "SELECT * FROM reviews WHERE movie_id = ?";
 
   connection.query(sql, (err, results) => {
     if (err) {
