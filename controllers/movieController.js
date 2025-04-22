@@ -38,4 +38,29 @@ function show(req, res) {
   });
 }
 
-module.exports = { index, show };
+function createReview(req, res) {
+  const movieId = Number(req.params.id);
+  const { vote, text, name } = req.body;
+
+  if (!vote || !text || !name) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+
+  const sql = `
+    INSERT INTO reviews (movie_id, vote, text, name)
+    VALUES (?, ?, ?, ?)
+  `;
+
+  connection.query(sql, [movieId, vote, text, name], (err, result) => {
+    if (err) {
+      console.error("Error inserting review:", err);
+      return res.status(500).json({ message: "Database error" });
+    }
+
+    res
+      .status(201)
+      .json({ message: "Review added", reviewId: result.insertId });
+  });
+}
+
+module.exports = { index, show, createReview };
